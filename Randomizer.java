@@ -8,7 +8,7 @@ public class Randomizer {
 
     public static int intBetween(int lower,int upper){
 
-        return randomizer.nextInt(upper -lower) + lower;
+        return randomizer.nextInt(upper - lower) + lower;
     }
 
     public static double doubleBetween(double lower,double upper) {
