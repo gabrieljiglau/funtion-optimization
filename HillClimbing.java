@@ -22,7 +22,7 @@ public class HillClimbing {
         long finishTime = System.nanoTime();
         long duration = (finishTime - startTime) / 1000000;
 
-        System.out.println("********************************8");
+        System.out.println("********************************");
         System.out.println("Total duration for getting the minValue of the function is " + duration + " miliseconds");
     }
 
@@ -42,16 +42,11 @@ public class HillClimbing {
 
         double bestEvaluationSoFar = function.evaluateForNewSolution(best);
 
-        System.out.println("Best so far is " + best.getCoefficient());
-        System.out.println("Minimum evaluation so far is " + bestEvaluationSoFar);
-
         int i = 0;
         while(i < limit){
 
             String candidateVC = function.setInitialSolution();
             BigDecimal vc = new BigDecimal(candidateVC);
-
-            System.out.println("Newly generated candidateVC is " + Double.valueOf(String.valueOf(vc)));
 
             boolean local = true;
             while (local) {
@@ -63,14 +58,10 @@ public class HillClimbing {
 
                 improveNeighbourhood = getBestNeighbour(neighbours, bestEvaluationSoFar,type);
 
-                System.out.println("Best neighbour is " + parseStringToDouble(String.valueOf(improveNeighbourhood)));
-
                 if(isBetter(function,limit,improveNeighbourhood,vc)){
                     vc = improveNeighbourhood;
 
                     Solution vcParameter = new Solution(Double.parseDouble(improveNeighbourhood.toString()),limit);
-                    System.out.println("The function with bestVN evaluates to " + function.evaluateForNewSolution(vcParameter) +
-                            " when firstCoefficient is " + vcParameter.getCoefficient());
                 } else {
                     local = false;
                 }
@@ -131,13 +122,7 @@ public class HillClimbing {
         for(BigDecimal neighbour : neighbours){
 
             String neighbourToString = String.valueOf(neighbour);
-            //String numberToString = moveMinusSymbol(binaryToDecimal(neighbourToString));
-            //double actualNumber = Double.parseDouble(numberToString);
-
             double actualNumber = Double.valueOf(neighbourToString);
-
-            //double newEvaluation = function.evaluateFunctionForNewVariableM(actualNumber); /*nu mai exista variabila function
-                                                                                                    /*in hill climbing class */
             double newEvaluation = 0;
 
             if(type == 1) {
@@ -150,7 +135,6 @@ public class HillClimbing {
                     index = neighbours.indexOf(neighbour);
                 }
             }
-
         }
 
         return new BigDecimal(String.valueOf(neighbours.get(index)));
