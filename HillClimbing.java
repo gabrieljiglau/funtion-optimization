@@ -17,7 +17,7 @@ public class HillClimbing {
 
         long startTime = System.nanoTime();
 
-        System.out.println("Minimum for schewefel is " + algorithm.findMinimum(schewefel,1));
+        System.out.println("Minimum for function is " + algorithm.findMinimum(schewefel,1));
 
         long finishTime = System.nanoTime();
         long duration = (finishTime - startTime) / 1000000;
@@ -114,16 +114,18 @@ public class HillClimbing {
         return value == null || value.isEmpty() ? Double.NaN : Double.parseDouble(value);
     }
 
-    private BigDecimal getBestNeighbour(ArrayList<BigDecimal> neighbours, double bestSoFar,int type){
+    
+    private BigDecimal getBestNeighbour(ArrayList<BigDecimal> neighbours, double bestSoFar,EvaluationFunction function,
+                                        int parameters,int type){
 
         //type -> 1 : firstImprovement, 2 : bestImprovement
         int index = 0;
-        double bestEvaluation = bestSoFar; //evaluarea functiei
+        double bestEvaluation = bestSoFar; 
         for(BigDecimal neighbour : neighbours){
-
+            
             String neighbourToString = String.valueOf(neighbour);
-            double actualNumber = Double.valueOf(neighbourToString);
-            double newEvaluation = 0;
+            Solution newSolution = new Solution(Double.parseDouble(neighbourToString),parameters);
+            double newEvaluation = function.evaluateForNewSolution(newSolution);
 
             if(type == 1) {
                 if (newEvaluation < bestEvaluation) {
