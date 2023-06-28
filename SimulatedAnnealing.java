@@ -22,7 +22,7 @@ public class SimulatedAnnealing {
         long finishTime = System.nanoTime();
         long duration = (finishTime - startTime) / 1000000;
 
-        System.out.println("********************************8");
+        System.out.println("********************************");
         System.out.println("Total duration for getting the minValue of the function is " + duration + " miliseconds");
     }
 
@@ -67,9 +67,6 @@ public class SimulatedAnnealing {
             double currentCost = function.evaluateForNewSolution(currentSolution);
             double newCost = function.evaluateForNewSolution(newSolution);
 
-            System.out.println("new cost : " + newCost);
-            System.out.println("current cost : " + currentCost);
-
             if ( /*isBetter(function,numberOfParameters,randomNeighbour,initial)*/ newCost < currentCost
                     || Randomizer.getDoubleFromZeroToOne() < acceptanceProbability(currentCost, newCost, temperature)) {
                 initial = randomNeighbour;
@@ -78,10 +75,6 @@ public class SimulatedAnnealing {
             BigDecimal first = initial;
             String initalizedBest = String.valueOf(bestSolution.getCoefficient());
             BigDecimal compareTo = new BigDecimal(initalizedBest);
-
-            /*if (newCost < function.evaluateForNewSolution(bestSolution)) {
-                bestSolution = newSolution;
-            }*/
 
             if(isBetter(function,numberOfParameters,first,compareTo)){
                 double vcDouble = Double.parseDouble(String.valueOf(initial));
@@ -93,7 +86,6 @@ public class SimulatedAnnealing {
             System.out.println("current solution : " + function.evaluateForNewSolution(bestSolution));
          }
 
-        System.out.println("Solution in " + bestSolution.getCoefficient());
        return String.valueOf(function.evaluateForNewSolution(bestSolution));
     }
 
