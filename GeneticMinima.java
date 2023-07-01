@@ -33,12 +33,11 @@ public class GeneticMinima {
     public double findMinimum(EvaluationG function,int numberOfParameters){
 
         currentGeneration = new FunctionDeJongG(numberOfParameters);
-        //initial random generation
+        
         for(int i = 0 ; i < populationSize; i++){
             String bestCoefficient = function.setInitialSolution();
             Solution best = new Solution(Double.parseDouble(bestCoefficient),numberOfParameters);
             currentGeneration.setParameter(best,i);
-            System.out.println("evaluation " + i + " is " + function.evaluateForNewSolution(best));
         }
 
         int generationNumber = 1;
@@ -53,7 +52,6 @@ public class GeneticMinima {
 
             Solution bestSolutionThisGeneration = null;
 
-            //fitness testing
             double totalFitness = 0;
             for (Solution candidate : currentGeneration.getFunctionParameters()) {
                 double fitness = function.evaluateForNewSolution(candidate);
@@ -78,16 +76,14 @@ public class GeneticMinima {
             FunctionDeJongG nextGeneration = new FunctionDeJongG(numberOfParameters);
 
             while(nextGeneration.getFunctionParameters().size() < populationSize){
-                //selection of parents
-                Solution parent1 = selectCandidate(bestFitnessScoreThisGeneration); //inainte era totalFitness
+                
+                Solution parent1 = selectCandidate(bestFitnessScoreThisGeneration);
                 Solution parent2 = selectCandidate(bestFitnessScoreThisGeneration);
 
-                //crossover
                 List<Solution> candidateList = crossoverParents(parent1,parent2,function,numberOfParameters);
                 Solution child1 = candidateList.get(0);
                 Solution child2 = candidateList.get(1);
 
-                //mutation
                 function.addPossibleMutation(child1,mutationRate);
                 function.addPossibleMutation(child2,mutationRate);
 
@@ -95,7 +91,6 @@ public class GeneticMinima {
                 nextGeneration.setParameter(child2,Randomizer.intBetween(0,numberOfParameters -1));
             }
 
-            //replacement
             currentGeneration = nextGeneration;
             generationNumber++;
             System.out.println("Best solution so far " + function.evaluateForNewSolution(bestSolution));
@@ -128,15 +123,11 @@ public class GeneticMinima {
             for(int i = 0; i < crossoverPoint; i++){
                 neighbours1.add(i,neighbours1.get(i));
                 neighbours2.add(i,neighbours2.get(i));
-                //child1.setIndividualIsSelected(i,parent1.getIsSelected().get(i));
-                //child2.setIndividualIsSelected(i,parent2.getIsSelected().get(i));
             }
 
             for(int i = crossoverPoint; i < numParameters; i++){
                 neighbours1.add(i,neighbours2.get(i));
                 neighbours2.add(i,neighbours1.get(i));
-                //child1.setIndividualIsSelected(i,parent2.getIsSelected().get(i));
-                //child2.setIndividualIsSelected(i,parent1.getIsSelected().get(i));
             }
         } else {
             String coefficient1 = function.setInitialSolution();
