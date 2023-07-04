@@ -1,7 +1,9 @@
 # optimization
-each function implements EvaluationFunction(interface for its core functionalities)
+in the main branch instances of FunctionG are evaluated by a genetic algorithm
 
-the findMin inside HillClimbing takes in an EvaluationFunction instance
+in the heuristic approach
+the findMinimum function takes an instance of the EvaluationFunction interface 
+and attemps the same purpose
 
-the findMinimum function inside GeneticMinima attemps the same purpose,but this time
-using a genetic algorithm
+all the test functions are multimodal and such,some runs might(or not) be more
+successful than the others
