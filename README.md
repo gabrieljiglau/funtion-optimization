@@ -1,9 +1,9 @@
 # optimization
-in the main branch instances of FunctionG are evaluated by a genetic algorithm
+instances of FunctionG are evaluated by a genetic algorithm
 
-in the heuristic approach
-the findMinimum function takes an instance of the EvaluationFunction interface 
-and attemps the same purpose
 
-all the test functions are multimodal and such,some runs might(or not) be more
+instances of the EvaluationFunction interface are evaluated by
+either hillClimbing or a version of hybridisedSimulatedAnnealing
+
+all the test functions are multimodal and such,some runs might be(or not) more
 successful than the others
