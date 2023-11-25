@@ -5,10 +5,6 @@ import java.util.List;
 
 public class BinaryDecimalConvertor {
 
-    public static void main(String[] args) {
-
-    }
-
     public BinaryDecimalConvertor() {
     }
 
@@ -40,22 +36,6 @@ public class BinaryDecimalConvertor {
         return decimalList;
     }
 
-    /*public static List<Double> bigBitStringToDecimal(Solution solution, double lowerBound, double upperBound, int precision) {
-        List<Double> decimalList = new ArrayList<>();
-        int bitsPerValue = getNumberOfBits(lowerBound, upperBound, precision);
-        String bitString = solution.getBigBitString();
-
-        for (int i = 1; i <= bitString.length() - bitsPerValue + 1; i++) {
-            if (i % bitsPerValue == 0) {
-                int startIndex = i - bitsPerValue + 1;
-                String substring = bitString.substring(startIndex - 1, i);
-                decimalList.add(bitStringToDecimal(substring, lowerBound, upperBound, precision));
-            }
-        }
-
-        return decimalList;
-    }*/
-
     public static double bitStringToDecimal(String bitString, double lowerBound, double upperBound, int precision) {
         double convertedResult = 0;
         int bitsPerValue = getNumberOfBits(lowerBound, upperBound, precision);
@@ -71,20 +51,3 @@ public class BinaryDecimalConvertor {
 
         return convertedResult;
     }
-
-    /*public static double bitStringToDecimal(String bitString, double lowerBound, double upperBound, int dimension, int precision) {
-        double convertedResult = 0;
-
-        for (int i = 0; i < bitString.length() - 1; i++) {
-
-            convertedResult *= 2;
-            String justOneByte = bitString.substring(i, i + 1);
-            convertedResult += Integer.parseInt(justOneByte);
-
-            convertedResult *= (upperBound - lowerBound);
-            convertedResult += lowerBound;
-        }
-
-        return convertedResult;
-    }*/
-}
