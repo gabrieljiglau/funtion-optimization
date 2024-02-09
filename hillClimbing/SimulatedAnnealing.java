@@ -44,14 +44,6 @@ public class SimulatedAnnealing {
                 String randomNeighbour = getRandomNeighbour(currentSolution.getBigBitString());
                 improvedNeighbourhood = new Solution(randomNeighbour, numberOfParameters);
 
-                 /*currentBitString = currentSolution.getBigBitString();
-                 String bestBitString = improvedNeighbourhood.getBigBitString();
-                 if (isBetter(function, numberOfParameters, currentBitString, bestBitString)) {
-                    currentSolution = improvedNeighbourhood;
-                } else if(acceptanceProbability(function.evaluateForNewSolution(currentSolution),
-                        function.evaluateForNewSolution(currentSolution),temperature) > Randomizer.getDoubleFromZeroToOne()){
-                    currentSolution = improvedNeighbourhood;
-                }*/
                 double deltaE = function.evaluateForNewSolution(improvedNeighbourhood) - function.evaluateForNewSolution(currentSolution);
 
                 if (deltaE < 0 || Math.exp(-deltaE / temperature) > Randomizer.getDoubleFromZeroToOne()) {
