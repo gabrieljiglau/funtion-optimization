@@ -27,14 +27,17 @@ and Michalewicz
 with their optima : DeJong1(0),Schwefel(-12569.487),Rastrigin(0)
 and Michalewicz(-28.9) (30dimensional versions).
 
-upon further testing, bigger population sizes and generations(in tests 200, 1050 respectively)
+upon further testing, with  bigger population sizes and generations for the genetic algorithm (200, 1050 respectively)
 Schewfel's function was minimized to -12460, Michalewicz to -28 and Rastrigin to 3.26048 * 10^-6, 
 but in comparatively more time: 10 minutes vs 2/3 minutes.
 
-another point was the changes made to simulated annealing(SA), where the neighbours are chosen at random;
+another point to make are the changes made to simulated annealing(SA), where the neighbours are chosen at random;
 after all its iterations, an additional hillClimbing will be run over the final candidate solution
-chosen by the SA, to make a final attempt in further improving its accuracy and these are the results
-for the test function : -11787.56(Schwefel), -27.76(Michalewicz), 24.54 Rastrigin (deJong is not named
+chosen by the SA, to make a final attempt in further improving its accuracy; the results are impressive and almost
+tie with the GA for sheer precision, but the SA heuristic has the upper hand in time complexity, taking only short of
+1 and 1/2 minutes to run.
+
+here are the results : -11787.56(Schwefel), -27.76(Michalewicz), 24.54 Rastrigin (deJong is not named
 because the "standard" algorithm was finding it's minimum of 0 relatively easy).
 
 
