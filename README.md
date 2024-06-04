@@ -31,6 +31,9 @@ upon further testing, with  bigger population sizes and generations for the gene
 Schewfel's function was minimized to -12460, Michalewicz to -28 and Rastrigin to 3.26048 * 10^-6, 
 but in comparatively more time: 10 minutes vs 2/3 minutes.
 
+later edit: by storing the evaluated fitness as a parameter inside the individual, the performance became superb: it 
+was decreased to less than 25s on average on the 30 dimensional versions
+
 another point to make are the changes made to simulated annealing(SA), where the neighbours are chosen at random;
 after all its iterations, an additional hillClimbing will be run over the final candidate solution
 chosen by the SA, to make a final attempt in further improving its accuracy; the results are impressive and almost
