@@ -1,12 +1,11 @@
 package onlyGeneticAlgorithms;
-import hillClimbingAndSimulatedAnnealing.TSPSolution;
 
 import java.util.*;
 
 public class GeneticMinima {
 
-    private int populationSize;
-    private double crossoverRate;
+    private final int populationSize;
+    private final double crossoverRate;
     private double mutationRate;
     private FunctionG currentGeneration;
     private final int numberOfElite;
@@ -17,8 +16,8 @@ public class GeneticMinima {
         this.populationSize = populationSize;
         this.crossoverRate = crossoverRate;
         this.mutationRate = mutationRate;
-        this.currentGeneration = f.getFunctions().get(index).createNextGeneration(numberOfParameters,precision);
-        this.numberOfElite = (int) (populationSize * 0.05);
+        this.currentGeneration = f.getFunctions().get(index).createNextGeneration(numberOfParameters,precision,mutationRate);
+        this.numberOfElite = (int) (populationSize * 0.085);
     }
 
     public double findMinimum(FunctionManager functions,int functionIndex,int numberOfParameters){
@@ -31,7 +30,7 @@ public class GeneticMinima {
 
         for(int i = 0 ; i < populationSize; i++){
             String randomCoefficient = function.setInitialBitStringSolution(lowerDomain,upperDomain,precision,numberOfParameters);
-            Solution randomSolution = new Solution(randomCoefficient,numberOfParameters);
+            Solution randomSolution = new Solution(randomCoefficient,numberOfParameters,mutationRate);
             currentGeneration.setSolution(randomSolution,i);
         }
 
@@ -39,8 +38,8 @@ public class GeneticMinima {
         double bestFitnessScoreAllTime = Double.POSITIVE_INFINITY;
 
         while(true) {
-            int MAX_GENERATIONS = 175;
-            if(generationNumber > MAX_GENERATIONS/4){
+            int MAX_GENERATIONS = 2050;
+            if(generationNumber > MAX_GENERATIONS/2.02){
                 mutationRate = 0.001;
             }
 
@@ -48,6 +47,7 @@ public class GeneticMinima {
 
             for (Solution candidate : currentGeneration.getSolutionList()) {
                double fitness = function.evaluateForNewSolution(candidate);
+               candidate.setFitnessScore(fitness);
 
                 if(fitness < bestFitnessScoreThisGeneration){
                     bestFitnessScoreThisGeneration = fitness;
@@ -62,20 +62,21 @@ public class GeneticMinima {
                 break;
             }
 
-            FunctionG nextGeneration = function.createNextGeneration(numberOfParameters,precision);
+            FunctionG nextGeneration = function.createNextGeneration(numberOfParameters,precision,mutationRate);
 
-            List<Solution> eliteIndividuals = new ArrayList<>();
-            if(generationNumber < MAX_GENERATIONS / 3.02){
+            List<Solution> eliteIndividuals;
+            if(generationNumber < MAX_GENERATIONS / 1.02){
                 eliteIndividuals = selectElite(currentGeneration.getSolutionList(), numberOfElite);
                 List<Solution> eliteGeneration = new ArrayList<>(eliteIndividuals);
                 int listIndex = 0;
                 for (Solution eliteIndividual : eliteGeneration) {
                     nextGeneration.setSolution(eliteIndividual, listIndex);
+                    listIndex++;
                 }
             }
 
             int index = 0;
-            while(nextGeneration.getSolutionList().size() < populationSize){ //ramas
+            while(nextGeneration.getSolutionList().size() < populationSize){
 
                 List<Solution> parentList = selectCandidates();
 
@@ -104,7 +105,7 @@ public class GeneticMinima {
             }
 
             currentGeneration = nextGeneration;
-            //System.out.println("bestEvaluation " + bestFitnessScoreAllTime + " in generation " + generationNumber);
+            System.out.println("bestEvaluation " + bestFitnessScoreAllTime + " in generation " + generationNumber);
             generationNumber++;
 
         }
@@ -117,7 +118,6 @@ public class GeneticMinima {
         List<Solution> parentList = new ArrayList<>();
 
         if (Randomizer.getDoubleFromZeroToOne() < crossoverRate) {
-            int numParameters = parent1.getNumberOfParameters();
             int crossoverPoint = Randomizer.intLessThan(parent1.getBigBitString().length());
 
             String bitString1 = parent1.getBigBitString();
@@ -126,8 +126,8 @@ public class GeneticMinima {
             String childBitString1 = bitString1.substring(0, crossoverPoint) + bitString2.substring(crossoverPoint);
             String childBitString2 = bitString2.substring(0, crossoverPoint) + bitString1.substring(crossoverPoint);
 
-            Solution child1 = new Solution(childBitString1, n);
-            Solution child2 = new Solution(childBitString2, n);
+            Solution child1 = new Solution(childBitString1, n,mutationRate);
+            Solution child2 = new Solution(childBitString2, n,mutationRate);
 
             parentList.add(child1);
             parentList.add(child2);
@@ -140,17 +140,18 @@ public class GeneticMinima {
     }
 
     private List<Solution> selectElite(List<Solution> generation, int numberOfElite) {
-        generation.sort(Comparator.comparingDouble(currentGeneration::evaluateForNewSolution).reversed());
+        //generation.sort(Comparator.comparingDouble(currentGeneration::evaluateForNewSolution).reversed());
+        generation.sort(Comparator.comparingDouble(Solution::getFitnessScore).reversed());
         return generation.subList(0, numberOfElite);
     }
 
-      //rank based selection
+    //rank based selection
 
     private List<Solution> selectCandidates() {
         int populationSize = currentGeneration.getSolutionList().size();
 
         List<Solution> sortedPopulation = new ArrayList<>(currentGeneration.getSolutionList());
-        sortedPopulation.sort(Comparator.comparingDouble(solution -> currentGeneration.evaluateForNewSolution(solution)));
+        sortedPopulation.sort(Comparator.comparingDouble(Solution::getFitnessScore));
 
         Map<Solution, Integer> rankMap = new HashMap<>();
         for (int i = 0; i < populationSize; i++) {
@@ -185,32 +186,12 @@ public class GeneticMinima {
         return selectedCandidates;
     }
 
-    public int getPopulationSize() {
-        return populationSize;
-    }
-
-    public void setPopulationSize(int populationSize) {
-        this.populationSize = populationSize;
-    }
-
-    public double getCrossoverRate() {
-        return crossoverRate;
-    }
-
-    public void setCrossoverRate(double crossoverRate) {
-        this.crossoverRate = crossoverRate;
-    }
-
     public double getMutationRate() {
         return mutationRate;
     }
 
     public void setMutationRate(double mutationRate) {
         this.mutationRate = mutationRate;
-    }
-
-    public FunctionG getCurrentGeneration() {
-        return currentGeneration;
     }
 
     public static int getStop() {
