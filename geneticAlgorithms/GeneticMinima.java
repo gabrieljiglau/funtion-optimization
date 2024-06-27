@@ -123,11 +123,18 @@ public class GeneticMinima {
             String bitString1 = parent1.getBigBitString();
             String bitString2 = parent2.getBigBitString();
 
-            String childBitString1 = bitString1.substring(0, crossoverPoint) + bitString2.substring(crossoverPoint);
-            String childBitString2 = bitString2.substring(0, crossoverPoint) + bitString1.substring(crossoverPoint);
+            StringBuilder sb1 = new StringBuilder();
+            StringBuilder sb2 = new StringBuilder();
 
-            Solution child1 = new Solution(childBitString1, n,mutationRate);
-            Solution child2 = new Solution(childBitString2, n,mutationRate);
+            sb1.append(bitString1, 0, crossoverPoint);
+            sb1.append(bitString2.substring(crossoverPoint));
+
+
+            sb2.append(bitString2, 0, crossoverPoint);
+            sb2.append(bitString1.substring(crossoverPoint));
+
+            Solution child1 = new Solution(sb1.toString(), n, mutationRate);
+            Solution child2 = new Solution(sb2.toString(), n, mutationRate);
 
             parentList.add(child1);
             parentList.add(child2);
