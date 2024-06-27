@@ -21,7 +21,7 @@ best results for the genetic algorithm using a bigger population consisting of
 of 100 individuals with 2000 generations for the for all three versions (5D, 10D, 30D)
 for DeJong1, Schwefel, Rastrigin and Michalewicz
 
-![ga good results](https://github.com/gabrieljiglau/numerical-optimization/assets/100293793/6ef9a336-aa0e-4b0a-a2ae-32a5bd5244b0)
+![ga good-good](https://github.com/gabrieljiglau/numerical-optimization/assets/100293793/8e5080fb-b191-47f8-a4f8-0542329a182c)
 
 with their optima : DeJong1(0),Schwefel(-12569.487),Rastrigin(0)
 and Michalewicz(-28.9) (30 dimensional versions).
