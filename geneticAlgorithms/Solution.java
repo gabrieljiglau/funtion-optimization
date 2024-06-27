@@ -4,10 +4,13 @@ public class Solution {
 
     private String bigBitString;
     private int numberOfParameters;
+    private double mutationRate;
+    private double fitnessScore;
 
-    public Solution(String bigBitString, int numberOfParameters){
+    public Solution(String bigBitString, int numberOfParameters, double mutationRate){
         this.bigBitString = bigBitString;
         this.numberOfParameters = numberOfParameters;
+        this.mutationRate = mutationRate;
     }
 
     public Solution(){
@@ -31,4 +34,20 @@ public class Solution {
         this.bigBitString = bigBitString;
     }
 
+    public double getMutationRate() {
+        return mutationRate;
+    }
+
+    public void setMutationRate(double mutationRate) {
+        this.mutationRate = mutationRate;
+    }
+
+    public double getFitnessScore() {
+        return fitnessScore;
+    }
+
+    public void setFitnessScore(double fitnessScore) {
+        this.fitnessScore = fitnessScore;
+    }
 }
+
